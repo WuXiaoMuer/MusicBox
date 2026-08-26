@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MusicBox</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="/main.js"></script>
+  </head>
+  <body>
+    <div class="cover-backdrop"><img id="backdrop-img" alt="" /></div>
+
+    <div id="app">
+      <aside id="sidebar">
+        <div class="logo">
+          <span class="logo-mark">♪</span>
+          <span class="logo-text">MusicBox</span>
+          <button id="settings-btn" class="icon-btn" title="设置">
+            <svg viewBox="0 0 24 24" class="ic"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-item active" data-view="library">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M4 6h16M4 12h16M4 18h10" /></svg>
+            <span>音乐库</span>
+          </button>
+          <button class="nav-item" data-view="favorites">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M12 21s-7.5-4.7-9.5-9C1.3 8.6 3.3 5 6.7 5c2 0 3.7 1.1 5.3 3 1.6-1.9 3.3-3 5.3-3 3.4 0 5.4 3.6 4.2 7-2 4.3-9.5 9-9.5 9z" /></svg>
+            <span>我喜欢</span>
+          </button>
+          <button class="nav-item" data-view="history">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /><path d="M12 8v4l3 2" /></svg>
+            <span>最近播放</span>
+          </button>
+          <button class="nav-item" data-view="most">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M12 20V10" /><path d="M18 20V4" /><path d="M6 20v-4" /></svg>
+            <span>最常播放</span>
+          </button>
+        </nav>
+
+        <div class="section-title">
+          <span>歌单</span>
+          <button id="new-playlist" class="mini-btn" title="新建歌单">＋</button>
+        </div>
+        <ul id="playlist-list" class="playlist-list"></ul>
+
+        <div class="sidebar-bottom">
+          <button id="add-folder" class="ghost-btn">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" /></svg>
+            添加音乐文件夹
+          </button>
+          <button id="add-files" class="ghost-btn">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M12 5v14M5 12h14" /></svg>
+            添加音乐文件
+          </button>
+        </div>
+      </aside>
+
+      <main id="main">
+        <header id="topbar">
+          <button id="sidebar-toggle" class="icon-btn" title="隐藏/显示侧栏">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+          </button>
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" class="ic"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+            <input id="search" type="text" placeholder="搜索标题 / 歌手 / 专辑" />
+          </div>
+          <div class="topbar-right">
+            <span id="track-count" class="count">0 首</span>
+            <button id="url-play-btn" class="icon-btn" title="播放在线链接">
+              <svg viewBox="0 0 24 24" class="ic"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7" /><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7" /></svg>
+            </button>
+            <button id="view-toggle" class="icon-btn" title="切换列表/网格视图">
+              <svg viewBox="0 0 24 24" class="ic" id="view-toggle-icon"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v11h-7zM4 13h7v7H4z"/></svg>
+            </button>
+            <select id="sort" class="select">
+              <option value="default">默认排序</option>
+              <option value="title">按标题</option>
+              <option value="artist">按歌手</option>
+              <option value="album">按专辑</option>
+              <option value="duration">按时长</option>
+            </select>
+          </div>
+        </header>
+
+        <div id="view-title" class="view-title">
+          <span id="view-title-text">音乐库</span>
+          <div class="view-actions">
+            <button id="play-all" class="pill-btn">播放全部</button>
+            <button id="shuffle-all" class="pill-btn">随机播放</button>
+            <button id="clear-history" class="pill-btn" style="display:none">清空记录</button>
+          </div>
+        </div>
+        <div id="track-list" class="track-list"></div>
+        <div id="empty-hint" class="empty-hint">
+          <div class="empty-icon">♪</div>
+          <p>还没有音乐</p>
+          <p class="sub">点击左侧「添加音乐文件夹」或直接拖入音频文件</p>
+        </div>
+      </main>
+    </div>
+
+    <div id="selection-bar" class="selection-bar" style="display:none">
+      <span id="selection-count" class="selection-count">已选 0 首</span>
+      <button id="sel-play" class="pill-btn">播放</button>
+      <button id="sel-fav" class="pill-btn">收藏</button>
+      <button id="sel-queue" class="pill-btn">加入队列</button>
+      <button id="sel-playlist" class="pill-btn">添加到歌单</button>
+      <button id="sel-remove" class="pill-btn">从歌单移除</button>
+      <button id="sel-clear" class="pill-btn">清除</button>
+    </div>
+
+    <footer id="player-bar">
+      <div class="now-playing" id="np-area" title="打开正在播放视图">
+        <img id="np-cover" class="np-cover" alt="" />
+        <div class="np-info">
+          <div id="np-title" class="np-title">未在播放</div>
+          <div id="np-artist" class="np-artist"></div>
+        </div>
+        <button id="fav-btn" class="icon-btn fav" title="收藏/取消收藏">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M12 21s-7.5-4.7-9.5-9C1.3 8.6 3.3 5 6.7 5c2 0 3.7 1.1 5.3 3 1.6-1.9 3.3-3 5.3-3 3.4 0 5.4 3.6 4.2 7-2 4.3-9.5 9-9.5 9z" /></svg>
+        </button>
+      </div>
+
+      <div class="player-center">
+        <div class="controls">
+          <button id="mode-btn" class="icon-btn" title="播放模式">
+            <svg viewBox="0 0 24 24" class="ic" id="mode-icon"><path d="M17 2l4 4-4 4" /><path d="M3 11v-1a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v1a4 4 0 0 1-4 4H3" /></svg>
+          </button>
+          <button id="prev-btn" class="icon-btn" title="上一首">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M6 6h2v12H6zM20 6l-10 6 10 6z" /></svg>
+          </button>
+          <button id="play-btn" class="icon-btn play" title="播放/暂停">
+            <svg viewBox="0 0 24 24" class="ic" id="play-icon"><path d="M8 5v14l11-7z" /></svg>
+          </button>
+          <button id="next-btn" class="icon-btn" title="下一首">
+            <svg viewBox="0 0 24 24" class="ic"><path d="M16 6h2v12h-2zM4 6l10 6-10 6z" /></svg>
+          </button>
+        </div>
+        <div class="progress-row">
+          <span id="cur-time" class="time">0:00</span>
+          <input id="seek" type="range" min="0" max="1000" step="1" value="0" />
+          <span id="dur-time" class="time">0:00</span>
+        </div>
+      </div>
+
+      <div class="volume">
+        <button id="mute-btn" class="icon-btn" title="静音">
+          <svg viewBox="0 0 24 24" class="ic" id="volume-icon"><path d="M11 5 6 9H2v6h4l5 4V5z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9.5 9.5 0 0 1 0 13" /></svg>
+        </button>
+        <input id="volume" type="range" min="0" max="100" step="1" value="80" />
+        <button id="lyrics-btn" class="icon-btn" title="歌词">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M4 6h16M4 12h12M4 18h8" /></svg>
+        </button>
+        <button id="queue-btn" class="icon-btn" title="播放队列">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M3 6h13M3 12h13M3 18h9" /><path d="M19 16l3 3-3 3" /><path d="M22 19h-4" /></svg>
+        </button>
+        <button id="mini-btn" class="icon-btn" title="迷你播放窗">
+          <svg viewBox="0 0 24 24" class="ic"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M9 9h6v6H9z" /></svg>
+        </button>
+        <button id="sleep-btn" class="icon-btn" title="睡眠定时">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+        </button>
+      </div>
+    </footer>
+
+    <audio id="audio"></audio>
+  </body>
+</html>

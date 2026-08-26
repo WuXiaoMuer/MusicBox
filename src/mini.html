@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MusicBox Mini</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+        background: #16161a;
+        color: #e6e6e6;
+        overflow: hidden;
+        user-select: none;
+        border-radius: 12px;
+      }
+      #mini {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 96px;
+        padding: 10px 14px;
+        cursor: default;
+      }
+      .m-cover {
+        width: 72px;
+        height: 72px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #232329;
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+      .m-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .m-title {
+        font-size: 14px;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .m-artist {
+        font-size: 12px;
+        color: #9a9a9a;
+        margin-top: 2px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .m-controls {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .m-btn {
+        border: none;
+        background: transparent;
+        color: #e6e6e6;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .m-btn:hover {
+        background: #26262c;
+      }
+      .m-btn .ic {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .m-play {
+        background: #1db954;
+      }
+      .m-play:hover {
+        background: #1ed760;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mini" data-tauri-drag-region>
+      <img id="m-cover" class="m-cover" alt="" title="返回主窗口" />
+      <div class="m-info">
+        <div id="m-title" class="m-title">未在播放</div>
+        <div id="m-artist" class="m-artist"></div>
+      </div>
+      <div class="m-controls">
+        <button id="m-prev" class="m-btn" title="上一首">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M6 6h2v12H6zM20 6l-10 6 10 6z"/></svg>
+        </button>
+        <button id="m-play" class="m-btn m-play" title="播放/暂停">
+          <svg viewBox="0 0 24 24" class="ic" id="m-play-icon"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button id="m-next" class="m-btn" title="下一首">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M16 6h2v12h-2zM4 6l10 6-10 6z"/></svg>
+        </button>
+        <button id="m-close" class="m-btn" title="关闭迷你窗">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <script type="module" src="/js/mini.js"></script>
+  </body>
+</html>
