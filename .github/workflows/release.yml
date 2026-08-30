@@ -45,6 +45,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          publish: true
           tagName: v__VERSION__
           releaseName: "MusicBox v__VERSION__"
           releaseBody: "MusicBox __VERSION__ —— 桌面音乐播放器"
