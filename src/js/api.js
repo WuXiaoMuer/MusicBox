@@ -29,4 +29,5 @@ export const api = {
   downloadUrl: (url) => invoke("download_url", { url }),
   exportSettings: (content) => invoke("export_settings", { content }),
   importSettings: () => invoke("import_settings"),
+  pickImage: () => invoke("pick_image"),
 };

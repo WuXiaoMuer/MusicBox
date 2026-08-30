@@ -1,5 +1,5 @@
 import { state, persist, notify, DEFAULT_SETTINGS } from "./state.js";
-import { api } from "./api.js";
+import { api, convertFileSrc } from "./api.js";
 import { el, toast } from "./ui.js";
 import { SHORTCUT_ACTIONS, getKeybinding, setKeybinding, formatCombo, comboFromEvent } from "./shortcuts.js";
 
@@ -52,6 +52,7 @@ export function applySettings() {
   document.documentElement.style.setProperty("--anim-speed", speed);
   document.body.classList.toggle("spin-off", !s.coverSpin);
   document.body.classList.toggle("sidebar-hidden", !s.sidebarVisible);
+  document.body.classList.toggle("custom-bg", !!s.bgImage);
 }
 
 function lighten(hex, amt) {
@@ -114,6 +115,44 @@ function boolSwitch(key, onChange) {
     applySettings();
   });
   return switchWrap(input);
+}
+
+function buildBgControl() {
+  const preview = el("img", { class: "bg-preview" });
+  if (state.settings.bgImage) preview.src = convertFileSrc(state.settings.bgImage);
+  const btns = el("div", { class: "io-btns" }, [
+    el("button", {
+      class: "io-btn",
+      onclick: async () => {
+        const p = await api.pickImage();
+        if (p) {
+          state.settings.bgImage = p;
+          preview.src = convertFileSrc(p);
+          applySettings();
+          persist();
+          toast("已设置背景图片");
+        }
+      },
+    }, [
+      el("svg", { viewBox: "0 0 24 24", class: "ic" }, [
+        el("path", { d: "M4 4h16v16H4z" }),
+        el("circle", { cx: "9", cy: "9", r: "1.5" }),
+        el("path", { d: "m5 18 5-5 3 3 3-3 3 3" }),
+      ]),
+      "选择图片",
+    ]),
+    el("button", {
+      class: "io-btn",
+      onclick: () => {
+        state.settings.bgImage = "";
+        preview.removeAttribute("src");
+        applySettings();
+        persist();
+        toast("已清除背景图片");
+      },
+    }, "清除"),
+  ]);
+  return el("div", { class: "bg-edit" }, [preview, btns]);
 }
 
 const THEMES = [
@@ -236,6 +275,7 @@ export function openSettings() {
     settingRow("封面形状", segBuilder(SHAPES, () => state.settings.coverShape, (v) => (state.settings.coverShape = v))),
     settingRow("侧栏宽度", segBuilder(SIDEBAR, () => state.settings.sidebarWidth, (v) => (state.settings.sidebarWidth = v))),
     settingRow("封面背景", boolSwitch("showBackdrop")),
+    settingRow("自定义背景", buildBgControl()),
     settingRow("显示专辑列", boolSwitch("showAlbum")),
   ]);
 

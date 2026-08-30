@@ -236,6 +236,19 @@ fn import_settings(app: AppHandle) -> Option<String> {
     std::fs::read_to_string(&path).ok()
 }
 
+#[tauri::command(async)]
+fn pick_image(app: AppHandle) -> Option<String> {
+    let path = app
+        .dialog()
+        .file()
+        .add_filter("图片", &["png", "jpg", "jpeg", "webp", "bmp", "gif"])
+        .blocking_pick_file()?
+        .into_path()
+        .ok()?;
+    let _ = app.asset_protocol_scope().allow_file(&path);
+    Some(path.to_string_lossy().to_string())
+}
+
 pub fn run() {
     tauri::Builder::default()
         .manage(CloseBehavior(AtomicBool::new(true)))
@@ -317,6 +330,7 @@ pub fn run() {
             download_url,
             export_settings,
             import_settings,
+            pick_image,
             media::media_update_metadata,
             media::media_update_playback
         ])

@@ -199,21 +199,26 @@ async function renderNowPlaying(track) {
   const cover = document.getElementById("np-cover");
   const backdrop = document.getElementById("backdrop-img");
   cover.src = PLACEHOLDER;
-  backdrop.src = PLACEHOLDER;
   lyrics.setCover(PLACEHOLDER);
   currentCoverUrl = PLACEHOLDER;
-  if (track.hasCover) {
-    try {
-      const url = await api.getCover(track.path);
-      if (url) {
-        cover.src = url;
-        backdrop.src = url;
-        lyrics.setCover(url);
-        currentCoverUrl = url;
-        emitMiniState(!audio.paused);
+  if (state.settings.bgImage) {
+    // 自定义背景优先
+    backdrop.src = convertFileSrc(state.settings.bgImage);
+  } else {
+    backdrop.src = PLACEHOLDER;
+    if (track.hasCover) {
+      try {
+        const url = await api.getCover(track.path);
+        if (url) {
+          cover.src = url;
+          backdrop.src = url;
+          lyrics.setCover(url);
+          currentCoverUrl = url;
+          emitMiniState(!audio.paused);
+        }
+      } catch {
+        /* 忽略封面读取失败 */
       }
-    } catch {
-      /* 忽略封面读取失败 */
     }
   }
 }
@@ -237,6 +242,15 @@ export function syncMini() {
 export function toggle() {
   if (audio.paused) audio.play().catch(() => {});
   else audio.pause();
+}
+
+/// 停止播放并清空当前曲目。
+export function stop() {
+  audio.pause();
+  audio.removeAttribute("src");
+  audio.load();
+  state.queueIndex = -1;
+  notify();
 }
 
 export function next() {

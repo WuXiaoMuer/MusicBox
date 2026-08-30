@@ -54,6 +54,11 @@
   opacity: 0.7;
 }
 
+body.custom-bg .cover-backdrop img {
+  filter: blur(60px) brightness(0.55) saturate(1.2);
+  opacity: 0.85;
+}
+
 /* ===== 毛玻璃（背景模糊） ===== */
 body.glass #sidebar,
 body.glass #player-bar,
@@ -1167,6 +1172,18 @@ input[type="range"]::-webkit-slider-thumb:hover {
   cursor: pointer;
 }
 
+.q-item[draggable="true"] {
+  cursor: grab;
+}
+
+.q-item[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.q-item.dragging {
+  opacity: 0.4;
+}
+
 .q-item:hover {
   background: var(--bg-elev2);
 }
@@ -1748,6 +1765,23 @@ body.hide-album .col-album {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+/* 自定义背景 */
+.bg-edit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bg-preview {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: var(--bg-elev2);
   flex-shrink: 0;
 }
 

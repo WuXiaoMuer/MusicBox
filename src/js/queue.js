@@ -52,7 +52,9 @@ function render() {
   body.innerHTML = "";
 
   const cur = currentTrack();
-  const upcoming = state.currentQueue.slice(Math.max(0, state.queueIndex + 1));
+  const upcoming = state.currentQueue
+    .map((p, i) => ({ path: p, i }))
+    .slice(Math.max(0, state.queueIndex + 1));
 
   // 正在播放
   if (cur) {
@@ -71,7 +73,7 @@ function render() {
 
   // 接下来
   if (upcoming.length) {
-    const items = upcoming.map((p) => row(p, false, false));
+    const items = upcoming.map((p) => row(p.path, false, false, p.i));
     body.append(section("接下来播放", items));
   }
 
@@ -87,7 +89,7 @@ function section(title, rows) {
   return wrap;
 }
 
-function row(path, isCurrent, isNext) {
+function row(path, isCurrent, isNext, index) {
   const track = state.trackMap.get(path);
   if (!track) return el("div");
 
@@ -108,7 +110,45 @@ function row(path, isCurrent, isNext) {
 
   const item = el("div", { class: "q-item" + (isCurrent ? " current" : "") }, [idx, info, rm]);
   item.addEventListener("click", () => jumpTo(path, isNext));
+
+  // 接下来播放列表支持拖拽排序
+  if (!isCurrent && !isNext && index != null) {
+    item.draggable = true;
+    item.title = "拖动排序";
+    item.addEventListener("dragstart", (e) => {
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", String(index));
+      item.classList.add("dragging");
+    });
+    item.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+    });
+    item.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const from = parseInt(e.dataTransfer.getData("text/plain"), 10);
+      if (!isNaN(from)) reorderQueue(from, index);
+    });
+    item.addEventListener("dragend", () => item.classList.remove("dragging"));
+  }
+
   return item;
+}
+
+function reorderQueue(fromIdx, toIdx) {
+  if (fromIdx === toIdx || fromIdx < 0 || toIdx < 0) return;
+  if (fromIdx >= state.currentQueue.length || toIdx >= state.currentQueue.length) return;
+  const [item] = state.currentQueue.splice(fromIdx, 1);
+  state.currentQueue.splice(toIdx, 0, item);
+  if (fromIdx < toIdx) {
+    if (state.queueIndex === fromIdx) state.queueIndex = toIdx;
+    else if (state.queueIndex > fromIdx && state.queueIndex <= toIdx) state.queueIndex--;
+  } else {
+    if (state.queueIndex === fromIdx) state.queueIndex = toIdx;
+    else if (state.queueIndex >= toIdx && state.queueIndex < fromIdx) state.queueIndex++;
+  }
+  persist();
+  render();
 }
 
 function jumpTo(path, isNext) {

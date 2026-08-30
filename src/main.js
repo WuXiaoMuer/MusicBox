@@ -1,4 +1,4 @@
-import { api } from "./js/api.js";
+import { api, convertFileSrc } from "./js/api.js";
 import { state, DEFAULT_SETTINGS, subscribe, addTracks, persist, notify, pushSearchHistory, currentTrack } from "./js/state.js";
 import { toast, showContextMenu, el } from "./js/ui.js";
 import * as player from "./js/audio.js";
@@ -31,6 +31,9 @@ async function bootstrap() {
   api.setCloseToTray(state.settings.minimizeToTray !== false);
   if (state.settings.alwaysOnTop) api.setAlwaysOnTop(true);
   updateViewToggleIcon();
+  if (state.settings.bgImage) {
+    document.getElementById("backdrop-img").src = convertFileSrc(state.settings.bgImage);
+  }
 
   // 2. 初始化播放器与 UI
   player.init();

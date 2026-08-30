@@ -24,6 +24,7 @@ export const DEFAULT_SETTINGS = {
   coverSpin: true, // 封面旋转
   sidebarVisible: true, // 侧栏显示
   keybindings: {}, // 自定义快捷键
+  bgImage: "", // 自定义背景图片（路径）
 };
 
 export const state = {

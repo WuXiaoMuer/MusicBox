@@ -475,6 +475,12 @@ function openTrackMenu(path, x, y) {
       label: "打开文件所在位置",
       action: () => api.revealInDir(path).catch(() => toast("打开失败")),
     },
+    "sep",
+    {
+      label: "从曲库移除",
+      danger: true,
+      action: () => removeTrackFromLibrary(path),
+    },
   ];
 
   if (inPlaylistView) {
@@ -511,6 +517,28 @@ function showPlaylistPicker(paths, x, y) {
     },
   });
   showContextMenu(items, x, y);
+}
+
+function removeTrackFromLibrary(path) {
+  const wasCurrent = state.currentQueue[state.queueIndex] === path;
+  state.trackMap.delete(path);
+  state.tracks = state.tracks.filter((t) => t.path !== path);
+  state.favorites = state.favorites.filter((p) => p !== path);
+  state.playlists.forEach((pl) => {
+    pl.tracks = pl.tracks.filter((p) => p !== path);
+  });
+  state.history = state.history.filter((p) => p !== path);
+  delete state.playCounts[path];
+  state.nextQueue = state.nextQueue.filter((p) => p !== path);
+  const qi = state.currentQueue.indexOf(path);
+  if (qi >= 0) {
+    state.currentQueue.splice(qi, 1);
+    if (qi < state.queueIndex) state.queueIndex--;
+  }
+  if (wasCurrent) player.stop();
+  persist();
+  notify();
+  toast("已从曲库移除");
 }
 
 async function openEditModal(path) {
