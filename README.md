@@ -12,10 +12,10 @@
 
 <br><br>
 
-[![GitHub release](https://img.shields.io/github/v/release/WuXiaoMu/MusicBox?style=flat-square&color=1db954&logo=github)](https://github.com/WuXiaoMu/MusicBox/releases)
-[![Build](https://img.shields.io/github/actions/workflow/status/WuXiaoMu/MusicBox/release.yml?style=flat-square&logo=github-actions&logoColor=white)](https://github.com/WuXiaoMu/MusicBox/actions)
+[![GitHub release](https://img.shields.io/github/v/release/WuXiaoMuer/MusicBox?style=flat-square&color=1db954&logo=github)](https://github.com/WuXiaoMuer/MusicBox/releases)
+[![Build](https://img.shields.io/github/actions/workflow/status/WuXiaoMuer/MusicBox/release.yml?style=flat-square&logo=github-actions&logoColor=white)](https://github.com/WuXiaoMuer/MusicBox/actions)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey?style=flat-square)](#-下载安装)
-[![License](https://img.shields.io/github/license/WuXiaoMu/MusicBox?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/github/license/WuXiaoMuer/MusicBox?style=flat-square)](LICENSE)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-24C8DB?style=flat-square&logo=tauri&logoColor=white)](https://tauri.app)
 
 </div>
@@ -65,9 +65,33 @@
 
 ---
 
+## ⌨️ 快捷键
+
+<br>
+
+> 全部快捷键均可在「设置 → 快捷键」中**自定义**。
+
+| 按键 | 功能 |
+|:---|:---|
+| `空格` | 播放 / 暂停 |
+| `Ctrl + →` | 下一首 |
+| `Ctrl + ←` | 上一首 |
+| `←` / `→` | 快退 / 快进 5 秒 |
+| `↑` / `↓` | 音量增 / 减 |
+| `M` | 静音 |
+| `L` | 歌词 / 正在播放视图 |
+| `[` / `]` | 歌词偏移 -0.5 / +0.5 秒 |
+| `Q` | 播放队列 |
+| `F` | 收藏当前歌曲 |
+| `Shift + ?` | 快捷键帮助 |
+
+<br>
+
+---
+
 ## 📥 下载安装
 
-> 各平台安装包由 [GitHub Actions CI](https://github.com/WuXiaoMu/MusicBox/actions) 自动构建并发布。
+> 各平台安装包由 [GitHub Actions CI](https://github.com/WuXiaoMuer/MusicBox/actions) 自动构建并发布。
 
 <br>
 
@@ -77,7 +101,7 @@
 | 🍎 **macOS** | `.dmg` | 同时发布 Apple Silicon (M1+) 与 Intel 版本 |
 | 🐧 **Linux** | `.deb` / `.AppImage` | 需 `webkit2gtk-4.1` 等系统库 |
 
-前往 [**Releases 页面**](https://github.com/WuXiaoMu/MusicBox/releases) 下载最新版本。
+前往 [**Releases 页面**](https://github.com/WuXiaoMuer/MusicBox/releases) 下载最新版本。
 
 <br>
 
@@ -110,7 +134,7 @@
 cargo install tauri-cli --version '^2.0.0' --locked
 
 # 克隆并运行开发模式
-git clone https://github.com/WuXiaoMu/MusicBox
+git clone https://github.com/WuXiaoMuer/MusicBox
 cd MusicBox
 cargo tauri dev
 ```
@@ -166,7 +190,7 @@ MusicBox/
 
 <br>
 
-[MIT](LICENSE) © **WuXiaoMu**
+[MIT](LICENSE) © **WuXiaoMuer**
 
 <br>
 
